@@ -1,6 +1,10 @@
 <?php
 
-use PgSql\Lob;
+include "./models/get.php";
+
+$get = new Get();
+
+
 
 if (isset($_REQUEST["request"])) {
     $req = explode('/', rtrim(($_REQUEST["request"]), "/"));
@@ -16,10 +20,10 @@ switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
             switch($req[0]){
                 case 'student':
-                        echo "This is my get student";
+                        echo $get->getStudents();
                     break;
                 case 'faculty':
-                        echo "This is my get faculty";
+                        echo $get->getFaculty();
                     break;
                 case 'login':
                         echo "This is my get login";
