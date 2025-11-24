@@ -1,8 +1,15 @@
 <?php
 
+include "./config/database.php";
 include "./models/get.php";
+include "./models/post.php";
 
-$get = new Get();
+
+$db = new Connection();
+$pdo = $db->connect();
+
+$get = new Get($pdo);
+$post = new Post($pdo);
 
 
 
@@ -19,8 +26,8 @@ if (isset($_REQUEST["request"])) {
 switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
             switch($req[0]){
-                case 'student':
-                        echo $get->getStudents();
+                case 'students':
+                        echo json_encode($get->getStudents($req[1] ?? null));
                     break;
                 case 'faculty':
                         echo $get->getFaculty();
@@ -34,9 +41,10 @@ switch($_SERVER['REQUEST_METHOD']){
             }
         break;
     case 'POST':
+          $data = json_decode(file_get_contents("php://input"));  
           switch($req[0]){
                 case 'addstudent':
-                        echo "This is my post student";
+                        echo json_encode($post->addStudent($data));
                     break;
                 case 'addfaculty':
                         echo "This is my post faculty";
@@ -53,5 +61,5 @@ switch($_SERVER['REQUEST_METHOD']){
         break;
 }
 
-
+$pdo = null;
 ?>
