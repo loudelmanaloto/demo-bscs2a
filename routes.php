@@ -46,6 +46,16 @@ switch($_SERVER['REQUEST_METHOD']){
                 case 'addstudent':
                         echo json_encode($post->addStudent($data));
                     break;
+                case 'editstudent':
+                        echo json_encode($post->editStudent($data));
+                    break;
+
+                case 'archivestudent':
+                        echo json_encode($post->archiveStudent($data));
+                break;
+                case 'deletestudent':
+                        echo json_encode($post->deleteStudent($data->recno));
+                    break;
                 case 'addfaculty':
                         echo "This is my post faculty";
                     break;

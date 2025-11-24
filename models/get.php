@@ -1,5 +1,7 @@
 <?php
-class Get{
+include "./models/common.php";
+
+class Get extends Common{
 
     private $pdo;
 
@@ -9,10 +11,10 @@ class Get{
     }
 
     public function getStudents($id = null){
-        $sql = "SELECT * FROM students ";
+        $sql = "SELECT * FROM students WHERE is_archived = 0 ";
 
         if($id != null){
-            $sql .= " WHERE recno = $id";
+            $sql .= " AND recno = $id";
         }
 
         $data = array();
@@ -28,14 +30,15 @@ class Get{
                 $result = null;
                 $code = 200;
                 
-                return array(
-                    "code"=>$code, 
-                    "data"=>$data
-                );
+
+                return $this->generateResponse($data, "Success", "Successfully retrieved records.", $code);
             }
             else{
                 $errmsg = "No data found";
                 $code = 404;
+
+                return $this->generateResponse(null, "Failed", $errmsg, $code);
+
             }
 
 
@@ -45,8 +48,7 @@ class Get{
             $code = 403;
         }
         
-        return array("code"=>$code, "errmsg"=>$errmsg);
-
+        return $this->generateResponse(null, "Failed", $errmsg, $code);
     }
 
     public function getFaculty(){
