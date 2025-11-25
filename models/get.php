@@ -1,6 +1,4 @@
 <?php
-include "./models/common.php";
-
 class Get extends Common{
 
     private $pdo;

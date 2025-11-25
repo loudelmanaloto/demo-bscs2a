@@ -1,8 +1,12 @@
 <?php
 
 include "./config/database.php";
+
+include "./models/common.php";
+
 include "./models/get.php";
 include "./models/post.php";
+include "./models/auth.php";
 
 
 $db = new Connection();
@@ -10,6 +14,7 @@ $pdo = $db->connect();
 
 $get = new Get($pdo);
 $post = new Post($pdo);
+$auth = new Auth($pdo);
 
 
 
@@ -32,9 +37,7 @@ switch($_SERVER['REQUEST_METHOD']){
                 case 'faculty':
                         echo $get->getFaculty();
                     break;
-                case 'login':
-                        echo "This is my get login";
-                    break;
+             
                 default:
                     echo "No such route.";
                     break;
@@ -43,6 +46,15 @@ switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
           $data = json_decode(file_get_contents("php://input"));  
           switch($req[0]){
+
+                case 'login':
+                        echo json_encode($auth->login($data));
+                break;
+
+                case 'addaccount':
+                        echo json_encode($auth->addAccount($data));
+                    break;
+
                 case 'addstudent':
                         echo json_encode($post->addStudent($data));
                     break;
